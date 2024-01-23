@@ -5,4 +5,9 @@
 //  Created by Tony Sharples on 23/01/2024.
 //
 
-import Foundation
+import Observation
+
+@Observable
+class Expenses {
+    var items = [ExpenseItem]()
+}
