@@ -19,12 +19,15 @@ struct ContentView: View {
                         VStack(alignment: .leading) {
                             Text(item.name)
                                 .font(.headline)
+                                .foregroundStyle(itemForegroundStyle(for: item))
                             Text(item.type)
+                                .foregroundStyle(itemForegroundStyle(for: item))
                         }
                         
                         Spacer()
                         
-                        Text(item.amount, format: .currency(code: "GBP"))
+                        Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "GBP"))
+                            .foregroundStyle(itemForegroundStyle(for: item))
                     }
                 }
                 .onDelete(perform: removeItems)
@@ -32,7 +35,7 @@ struct ContentView: View {
             .navigationTitle("iExpense")
             .toolbar {
                 Button("Add Expense", systemImage: "plus") {
-                   showingAddExpense = true
+                    showingAddExpense = true
                 }
             }
             .sheet(isPresented: $showingAddExpense) {
@@ -43,6 +46,18 @@ struct ContentView: View {
     
     func removeItems(at offsets: IndexSet) {
         expenses.items.remove(atOffsets: offsets)
+    }
+    
+    func itemForegroundStyle(for item: ExpenseItem) -> Color {
+        if item.amount < 10 {
+            return Color.red
+        }
+        
+        if item.amount < 100 {
+            return Color.orange
+        }
+        
+        return Color.green
     }
 }
 
