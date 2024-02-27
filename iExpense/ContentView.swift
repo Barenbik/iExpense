@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var expenses = Expenses()
-    @State private var showingAddExpense = false
     
     var body: some View {
         NavigationStack {
@@ -19,7 +18,6 @@ struct ContentView: View {
                         if item.type == "Personal" {
                             HStack {
                                 VStack(alignment: .leading) {
-                                    
                                     Text(item.name)
                                         .font(.headline)
                                         .foregroundStyle(itemForegroundStyle(for: item))
@@ -42,7 +40,6 @@ struct ContentView: View {
                         if item.type == "Business" {
                             HStack {
                                 VStack(alignment: .leading) {
-                                    
                                     Text(item.name)
                                         .font(.headline)
                                         .foregroundStyle(itemForegroundStyle(for: item))
@@ -62,12 +59,11 @@ struct ContentView: View {
             }
             .navigationTitle("iExpense")
             .toolbar {
-                Button("Add Expense", systemImage: "plus") {
-                    showingAddExpense = true
+                NavigationLink {
+                    AddView(expenses: expenses)
+                } label: {
+                    Label("Add Expense", systemImage: "plus")
                 }
-            }
-            .sheet(isPresented: $showingAddExpense) {
-                AddView(expenses: expenses)
             }
         }
     }
